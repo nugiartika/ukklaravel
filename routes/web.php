@@ -33,7 +33,9 @@ Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->name('admi
     Route::resource('category', CategoryController::class);
     Route::resource('product', ProductController::class);
     Route::resource('supplier', SupplierController::class);
+  
 });
+
 Route::middleware(['auth', MemberMiddleware::class])->group(function () {
     Route::get('member/dashboard', function () {
         return view('member');

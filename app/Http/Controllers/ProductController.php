@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
+use App\Models\purchase;
+use App\Models\purchase_detail;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,7 +48,7 @@ class ProductController extends Controller
         if ($photo) {
             $path_gambar = Storage::disk('public')->put('product', $photo);
         }
-        Product::create([
+        $product = Product::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
             'product_detail' => $request->product_detail,
@@ -57,6 +59,26 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'supplier_id' => $request->supplier_id,
         ]);
+
+        $total = $product->stock * $product->price;
+        try {
+            $purchase = purchase::create([
+                'supplier_id' => $product->supplier_id,
+                'purchase_date' => now(),
+                'total' => $total,
+            ]);
+
+            purchase_detail::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $product->id,
+                'amount' => $product->stock,
+                'sub_total' => $total
+            ]);
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
         // dd($request->all());
         return redirect()->route('admin.product.index')->with('success', 'product added successfully');
 
@@ -105,6 +127,9 @@ class ProductController extends Controller
             'supplier_id' => $request->supplier_id,
             'stock' => $request->stock,
         ]);
+
+
+
                 // dd($request->all());
         return redirect()->route('admin.product.index')->with('success', 'product updated successfully');;
     }

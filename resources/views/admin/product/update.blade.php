@@ -1,4 +1,9 @@
 @extends('layout.app')
+@section('link')
+<link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/core.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/css/rtl/theme-default.css') }}">
+@endsection
+
 @section('content')
 
     <div id="main">
@@ -9,7 +14,7 @@
         </header>
 
         <div class="card mb-6">
-            <h5 class="card-header">Create Product</h5>
+            <h5 class="card-header">Update Product</h5>
             <form action="{{ route('admin.product.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="card-body">
                 @csrf
                 @method('put')
