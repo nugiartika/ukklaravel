@@ -16,7 +16,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = purchase::with('supplier', 'purchase_details.product')->get();
+        $purchases = purchase::with('supplier', 'purchase_detail.product')->get();
         $suppliers = Supplier::all();
         $products = Product::all();
         return view('admin..purchase.purchase', compact('purchases','suppliers','products'));
@@ -88,11 +88,11 @@ class PurchaseController extends Controller
      */
     public function edit($id)
     {
-        $purchase = Purchase::with('details.product')->findOrFail($id);
+        $purchase = purchase::with('purchase_detail')->find($id);
         $suppliers = Supplier::all();
         $products = Product::all();
 
-        return view('admin.purchases.edit', compact('purchase', 'suppliers', 'products'));
+        return view('admin.purchase.update', compact('purchase', 'suppliers', 'products'));
     }
 
     /**
@@ -101,30 +101,43 @@ class PurchaseController extends Controller
     public function update(UpdatepurchaseRequest $request, $id)
     {
 
-        $purchase = Purchase::findOrFail($id);
+        $purchase = purchase::findOrFail($id);
+
+        $purchase_detail = purchase_detail::where('purchase_id', $id)->get();
+
+        // Perhitungan ulang stok produk sebelum update
+        foreach ($purchase_detail as $oldDetail) {
+            $product = Product::find($oldDetail->product_id);
+            if ($product) {
+                $product->stock -= $oldDetail->amount; // Kembalikan stok lama
+                $product->save();
+            }
+        }
+
         $purchase->update([
             'supplier_id' => $request->supplier_id,
             'purchase_date' => $request->purchase_date,
         ]);
 
         // Hapus detail lama
-        purchase_detail::where('purchase_id', $id)->delete();
+        // $purchase_detail = purchase_detail::where('purchase_id', $id);
 
         $total = 0;
 
         // Simpan detail baru
         foreach ($request->products as $product) {
-            purchase_detail::create([
+            $purchase_detail->update([
                 'purchase_id' => $purchase->id,
                 'product_id' => $product['product_id'],
                 'amount' => $product['amount'],
                 'sub_total' => $product['sub_total'],
             ]);
 
-            // Update stok produk
-            $productModel = Product::find($product['product_id']);
-            $productModel->stock += $product['amount'];
-            $productModel->save();
+            $product = Product::find($product['product_id']);
+            if ($product) {
+                $product->stock += $product['amount']; // Tambah stok baru
+                $product->save();
+            }
 
             $total += $product['sub_total'];
         }

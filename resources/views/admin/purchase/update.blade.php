@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layout.app')
 
 @section('content')
 <div class="container">
     <h2>Edit Purchase</h2>
 
-    <form action="{{ route('purchases.update', $purchase->id) }}" method="POST">
+    <form action="{{ route('admin.purchases.update', $purchase->id) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($purchase->details as $index => $detail)
+                @foreach($purchase->purchase_detail as $index => $detail)
                 <tr>
                     <td>
                         <select name="products[{{ $index }}][product_id]" class="form-control product-select" required>
@@ -69,7 +69,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        let index = {{ count($purchase->details) }};
+        let index = {{ count($purchase->purchase_detail) }};
 
         document.getElementById("addRow").addEventListener("click", function () {
             let newRow = `

@@ -44,6 +44,6 @@ class UpdatepurchaseRequest extends FormRequest
             'products.*.sub_total.required' => 'Sub total is required',
             'products.*.sub_total.numeric' => 'Sub total must be a number',
             'products.*.sub_total.min' => 'Sub total must be greater than 0',
-            ];
+        ];
     }
 }

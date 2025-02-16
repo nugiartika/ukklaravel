@@ -48,7 +48,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($purchase->purchase_details as $detail)
+                                        @foreach($purchase->purchase_detail as $detail)
                                             <tr>
                                                 <td>{{ $detail->product->name }}</td>
                                                 <td>{{ $detail->amount }}</td>
