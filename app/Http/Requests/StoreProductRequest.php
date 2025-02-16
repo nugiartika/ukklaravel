@@ -28,8 +28,8 @@ class StoreProductRequest extends FormRequest
             'product_detail' => 'required',
             'photo' => 'required|image|mimes:jpg,jpeg,png,gif',
             'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'required|exists:suppliers,id',
-            'stock' => 'required|integer|min:1',
+            // 'supplier_id' => 'required|exists:suppliers,id',
+            // 'stock' => 'required|integer',
         ];
     }
 
@@ -49,11 +49,10 @@ class StoreProductRequest extends FormRequest
             'photo.mimes' => 'Product photo must be a image file',
             'category_id.required' => 'Product category is required',
             'category_id.exists' => 'Product category is not found',
-            'supplier_id.required' => 'supplier is required',
-            'supplier_id.exists' => 'supplier is not found',
-            'stock.required' => 'Product stock is required',
-            'stock.integer' => 'Product stock must be an integer',
-            'stock.min' => 'Product stock must be at least 0',
+            // 'supplier_id.required' => 'supplier is required',
+            // 'supplier_id.exists' => 'supplier is not found',
+            // 'stock.required' => 'Product stock is required',
+            // 'stock.integer' => 'Product stock must be an integer',
         ];
     }
 }

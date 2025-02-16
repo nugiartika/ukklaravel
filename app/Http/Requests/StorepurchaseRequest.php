@@ -11,7 +11,7 @@ class StorepurchaseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StorepurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'supplier_id' => 'required|exists:suppliers,id',
+            'purchase_date' => 'required|date',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.amount' => 'required|integer|min:1',
+            'products.*.sub_total' => 'required|integer|min:0',
         ];
     }
 }

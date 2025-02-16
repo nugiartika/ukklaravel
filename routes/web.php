@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\KasirMiddleware;
@@ -33,7 +34,7 @@ Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->name('admi
     Route::resource('category', CategoryController::class);
     Route::resource('product', ProductController::class);
     Route::resource('supplier', SupplierController::class);
-  
+    Route::resource('purchases', PurchaseController::class);
 });
 
 Route::middleware(['auth', MemberMiddleware::class])->group(function () {
@@ -41,9 +42,10 @@ Route::middleware(['auth', MemberMiddleware::class])->group(function () {
         return view('member');
     });
 });
-Route::middleware(['auth', KasirMiddleware::class])->group(function () {
+Route::prefix('kasir')->middleware(['auth', KasirMiddleware::class])->group(function () {
     Route::get('kasir/dashboard', function () {
         return view('kasir');
     });
+    // Route::resource('kasir', KasirController::class);
 });
 

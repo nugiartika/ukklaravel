@@ -55,29 +55,29 @@ class ProductController extends Controller
             'weight' => $request->weight,
             'price' => $request->price,
             'photo' => $path_gambar,
-            'stock' => $request->stock,
+            'stock' => 0,
             'category_id' => $request->category_id,
-            'supplier_id' => $request->supplier_id,
+            // 'supplier_id' => $request->supplier_id,
         ]);
 
-        $total = $product->stock * $product->price;
-        try {
-            $purchase = purchase::create([
-                'supplier_id' => $product->supplier_id,
-                'purchase_date' => now(),
-                'total' => $total,
-            ]);
+        // $total = $product->stock * $product->price;
+        // try {
+        //     $purchase = purchase::create([
+        //         'supplier_id' => $product->supplier_id,
+        //         'purchase_date' => now(),
+        //         'total' => $total,
+        //     ]);
 
-            purchase_detail::create([
-                'purchase_id' => $purchase->id,
-                'product_id' => $product->id,
-                'amount' => $product->stock,
-                'sub_total' => $total
-            ]);
+        //     purchase_detail::create([
+        //         'purchase_id' => $purchase->id,
+        //         'product_id' => $product->id,
+        //         'amount' => $product->stock,
+        //         'sub_total' => $total
+        //     ]);
 
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
+        // } catch (\Exception $e) {
+        //     dd($e->getMessage());
+        // }
 
         // dd($request->all());
         return redirect()->route('admin.product.index')->with('success', 'product added successfully');
@@ -124,8 +124,8 @@ class ProductController extends Controller
             'price' => $request->price,
             'photo' => $path_gambar,
             'category_id' => $request->category_id,
-            'supplier_id' => $request->supplier_id,
-            'stock' => $request->stock,
+            // 'supplier_id' => $request->supplier_id,
+            // 'stock' => $product->stock,
         ]);
 
 

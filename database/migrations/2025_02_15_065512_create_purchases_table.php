@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id');
             $table->date('purchase_date');
-            $table->integer('total');
+            $table->integer('total')->default(0);
             $table->timestamps();
         });
     }

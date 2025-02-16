@@ -40,25 +40,31 @@
         <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                <div data-i18n="Dashboard">Dashboard</div>
+                <div data-i18n="Beranda">Beranda</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('admin.category.*') ? 'active' : '' }}">
             <a href="{{ route('admin.category.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-category"></i>
-                <div data-i18n="Category">Category</div>
+                <div data-i18n="Kategori">Kategori</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
             <a href="{{ route('admin.product.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-devices-2"></i>
-                <div data-i18n="Product">Product</div>
+                <div data-i18n="Produk">Produk</div>
             </a>
         </li>
         <li class="menu-item {{ request()->routeIs('admin.supplier.*') ? 'active' : '' }}">
             <a href="{{ route('admin.supplier.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-truck"></i>
                 <div data-i18n="Supplier">Supplier</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('admin.purchases.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.purchases.index') }}" class="menu-link">
+                <i class="menu-icon ti ti-shopping-bag-check"></i>
+                <div data-i18n="Pembelian">Pembelian</div>
             </a>
         </li>
     </ul>

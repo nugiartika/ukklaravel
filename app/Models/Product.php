@@ -15,10 +15,10 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-    public function purchases()
-{
-    return $this->hasMany(purchase_detail::class);
-}
+    public function purchase_detail()
+    {
+        return $this->hasMany(purchase_detail::class);
+    }
 
 }
 

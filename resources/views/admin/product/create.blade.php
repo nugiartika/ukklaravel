@@ -29,13 +29,13 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <label for="stock" class="form-label">Stock</label>
                         <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') }}">
                         @error('stock')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
                         <label for="weight" class="form-label">Weight</label>
                             <input type="number" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}">
@@ -49,8 +49,12 @@
                             name="category_id" >
                             <option value="" {{ old('category_id') ? '' : 'selected' }}>- Select Category -</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"
+                                {{-- <option value="{{ $category->id }}"
                                     {{ in_array($category->id, isset($is_edit) ? $product->categories->pluck('id')->toArray() : old('category_id', [])) ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option> --}}
+                                <option value="{{ $category->id }}"
+                                    {{ isset($is_edit) ? ($category->id == $product->category_id ? 'selected' : '') : (old('category_id') == $category->id ? 'selected' : '') }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
@@ -59,7 +63,7 @@
                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
                     </div>
-                    <div class="col-md-6 mb-3">
+                    {{-- <div class="col-md-6 mb-3">
                         <label for="supplier" class="form-label">supplier</label>
                         <select class="form-select select2 @error('supplier_id') is-invalid @enderror" id="supplier"
                             name="supplier_id" >
@@ -74,7 +78,7 @@
                         @error('supplier_id')
                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                         @enderror
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
                         <label for="photo" class="form-label">Product Photo</label>
                         <input type="file" class="form-control @error('photo') is-invalid @enderror" name="photo">

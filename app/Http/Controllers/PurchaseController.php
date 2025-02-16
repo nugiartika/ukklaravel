@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\purchase;
 use App\Http\Requests\StorepurchaseRequest;
 use App\Http\Requests\UpdatepurchaseRequest;
+use App\Models\Product;
+use App\Models\purchase_detail;
+use App\Models\Supplier;
 
 class PurchaseController extends Controller
 {
@@ -13,7 +16,10 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        //
+        $purchases = purchase::with('supplier', 'purchase_details.product')->get();
+        $suppliers = Supplier::all();
+        $products = Product::all();
+        return view('admin..purchase.purchase', compact('purchases','suppliers','products'));
     }
 
     /**
@@ -21,7 +27,9 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        //
+        $suppliers = Supplier::all();
+        $products = Product::all();
+        return view('admin.purchase.create', compact('suppliers', 'products'));
     }
 
     /**
@@ -29,7 +37,42 @@ class PurchaseController extends Controller
      */
     public function store(StorepurchaseRequest $request)
     {
-        //
+           // Simpan data pembelian
+           $purchase = purchase::create([
+            'supplier_id' => $request->supplier_id,
+            'purchase_date' => now(),
+            'total' => 0, // Akan dihitung ulang
+        ]);
+
+        $total = 0;
+
+        // Simpan detail pembelian
+         // Simpan detail pembelian dan update stok produk
+        foreach ($request->products as $productData) {
+            // Simpan detail pembelian
+            purchase_detail::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $productData['product_id'],
+                'amount' => $productData['amount'],
+                'sub_total' => $productData['sub_total'],
+            ]);
+
+            // Cari produk berdasarkan ID
+            $product = Product::find($productData['product_id']);
+
+            if ($product) {
+                // Update stok produk (stok lama + amount pembelian)
+                $product->update([
+                    'stock' => $product->stock + $productData['amount']
+                ]);
+            }
+            $total += $productData['sub_total'];
+        }
+
+        // Update total pembelian
+        $purchase->update(['total' => $total]);
+
+        return redirect()->route('admin.purchases.index')->with('success', 'Purchase added successfully!');
     }
 
     /**
@@ -43,17 +86,53 @@ class PurchaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(purchase $purchase)
+    public function edit($id)
     {
-        //
+        $purchase = Purchase::with('details.product')->findOrFail($id);
+        $suppliers = Supplier::all();
+        $products = Product::all();
+
+        return view('admin.purchases.edit', compact('purchase', 'suppliers', 'products'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Menyimpan perubahan data pembelian.
      */
-    public function update(UpdatepurchaseRequest $request, purchase $purchase)
+    public function update(UpdatepurchaseRequest $request, $id)
     {
-        //
+
+        $purchase = Purchase::findOrFail($id);
+        $purchase->update([
+            'supplier_id' => $request->supplier_id,
+            'purchase_date' => $request->purchase_date,
+        ]);
+
+        // Hapus detail lama
+        purchase_detail::where('purchase_id', $id)->delete();
+
+        $total = 0;
+
+        // Simpan detail baru
+        foreach ($request->products as $product) {
+            purchase_detail::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $product['product_id'],
+                'amount' => $product['amount'],
+                'sub_total' => $product['sub_total'],
+            ]);
+
+            // Update stok produk
+            $productModel = Product::find($product['product_id']);
+            $productModel->stock += $product['amount'];
+            $productModel->save();
+
+            $total += $product['sub_total'];
+        }
+
+        // Update total pembelian
+        $purchase->update(['total' => $total]);
+
+        return redirect()->route('admin.purchases.index')->with('success', 'Purchase updated successfully!');
     }
 
     /**
