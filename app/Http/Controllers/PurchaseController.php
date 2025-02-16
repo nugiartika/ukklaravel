@@ -103,16 +103,18 @@ class PurchaseController extends Controller
 
         $purchase = purchase::findOrFail($id);
 
-        $purchase_detail = purchase_detail::where('purchase_id', $id)->get();
+        $oldDetails = purchase_detail::where('purchase_id', $id)->get();
 
         // Perhitungan ulang stok produk sebelum update
-        foreach ($purchase_detail as $oldDetail) {
+        foreach ($oldDetails as $oldDetail) {
             $product = Product::find($oldDetail->product_id);
             if ($product) {
                 $product->stock -= $oldDetail->amount; // Kembalikan stok lama
                 $product->save();
             }
         }
+
+        purchase_detail::where('purchase_id', $id)->delete();
 
         $purchase->update([
             'supplier_id' => $request->supplier_id,
@@ -125,21 +127,21 @@ class PurchaseController extends Controller
         $total = 0;
 
         // Simpan detail baru
-        foreach ($request->products as $product) {
-            $purchase_detail->update([
+        foreach ($request->products as $productData) {
+            purchase_detail::create([
                 'purchase_id' => $purchase->id,
-                'product_id' => $product['product_id'],
-                'amount' => $product['amount'],
-                'sub_total' => $product['sub_total'],
+                'product_id' => $productData['product_id'],
+                'amount' => $productData['amount'],
+                'sub_total' => $productData['sub_total'],
             ]);
 
-            $product = Product::find($product['product_id']);
+            $product = Product::find($productData['product_id']);
             if ($product) {
-                $product->stock += $product['amount']; // Tambah stok baru
+                $product->stock += $productData['amount']; // Tambah stok baru
                 $product->save();
             }
 
-            $total += $product['sub_total'];
+            $total += $productData['sub_total'];
         }
 
         // Update total pembelian
