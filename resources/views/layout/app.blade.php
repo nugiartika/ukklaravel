@@ -138,6 +138,12 @@
             $('.select2').select2();
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.datatables').DataTable();
+        });
+    </script>
+
 
       <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

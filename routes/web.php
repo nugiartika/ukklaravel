@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\KasirController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\KasirMiddleware;
@@ -38,14 +41,18 @@ Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->name('admi
 });
 
 Route::middleware(['auth', MemberMiddleware::class])->group(function () {
-    Route::get('member/dashboard', function () {
-        return view('member');
-    });
+    Route::get('pimpinan/product',[ MemberController::class, 'product'])->name('pimpinan.product');
+});
+Route::middleware(['auth', MemberMiddleware::class])->name('member.')->group(function () {
+    Route::get('member/product',[ MemberController::class, 'product'])->name('member.product');
+    Route::get('member/sale',[ MemberController::class, 'history'])->name('member.history');
 });
 Route::prefix('kasir')->middleware(['auth', KasirMiddleware::class])->group(function () {
-    Route::get('kasir/dashboard', function () {
-        return view('kasir');
-    });
-    // Route::resource('kasir', KasirController::class);
+    Route::get('kasir/product', [KasirController::class, 'product'])->name('kasir.product');
+    Route::get('dashboard', function () {
+        return view('kasir.index');
+    })->name('kasir.dashboard');
+    Route::resource('kasir', SaleController::class);
+    Route::resource('member', MemberController::class);
 });
 

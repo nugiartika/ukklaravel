@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\SaleDetail;
+use App\Http\Requests\StoreSaleDetailRequest;
+use App\Http\Requests\UpdateSaleDetailRequest;
 
-class KasirController extends Controller
+class SaleDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::all();
-        return view('cashier.index', compact('products'));
-
+        //
     }
 
-    public function product()
-    {
-        $products = Product::all();
-        return view('cashier.product', compact('products'));
-    }
     /**
      * Show the form for creating a new resource.
      */
@@ -33,7 +27,7 @@ class KasirController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSaleDetailRequest $request)
     {
         //
     }
@@ -41,7 +35,7 @@ class KasirController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(SaleDetail $saleDetail)
     {
         //
     }
@@ -49,7 +43,7 @@ class KasirController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(SaleDetail $saleDetail)
     {
         //
     }
@@ -57,7 +51,7 @@ class KasirController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSaleDetailRequest $request, SaleDetail $saleDetail)
     {
         //
     }
@@ -65,7 +59,7 @@ class KasirController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SaleDetail $saleDetail)
     {
         //
     }

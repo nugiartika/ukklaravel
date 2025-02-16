@@ -5,22 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class KasirController extends Controller
+class PimpinanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::all();
-        return view('cashier.index', compact('products'));
-
+        //
     }
 
     public function product()
     {
         $products = Product::all();
-        return view('cashier.product', compact('products'));
+        return view('pimpinan.product', compact('products'));
     }
     /**
      * Show the form for creating a new resource.

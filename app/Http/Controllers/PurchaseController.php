@@ -19,7 +19,7 @@ class PurchaseController extends Controller
         $purchases = purchase::with('supplier', 'purchase_detail.product')->get();
         $suppliers = Supplier::all();
         $products = Product::all();
-        return view('admin..purchase.purchase', compact('purchases','suppliers','products'));
+        return view('admin.purchase.purchase', compact('purchases','suppliers','products'));
     }
 
     /**
@@ -37,19 +37,15 @@ class PurchaseController extends Controller
      */
     public function store(StorepurchaseRequest $request)
     {
-           // Simpan data pembelian
            $purchase = purchase::create([
             'supplier_id' => $request->supplier_id,
             'purchase_date' => now(),
-            'total' => 0, // Akan dihitung ulang
+            'total' => 0,
         ]);
 
         $total = 0;
 
-        // Simpan detail pembelian
-         // Simpan detail pembelian dan update stok produk
         foreach ($request->products as $productData) {
-            // Simpan detail pembelian
             purchase_detail::create([
                 'purchase_id' => $purchase->id,
                 'product_id' => $productData['product_id'],
@@ -57,11 +53,9 @@ class PurchaseController extends Controller
                 'sub_total' => $productData['sub_total'],
             ]);
 
-            // Cari produk berdasarkan ID
             $product = Product::find($productData['product_id']);
 
             if ($product) {
-                // Update stok produk (stok lama + amount pembelian)
                 $product->update([
                     'stock' => $product->stock + $productData['amount']
                 ]);
@@ -69,7 +63,6 @@ class PurchaseController extends Controller
             $total += $productData['sub_total'];
         }
 
-        // Update total pembelian
         $purchase->update(['total' => $total]);
 
         return redirect()->route('admin.purchases.index')->with('success', 'Purchase added successfully!');
@@ -105,11 +98,10 @@ class PurchaseController extends Controller
 
         $oldDetails = purchase_detail::where('purchase_id', $id)->get();
 
-        // Perhitungan ulang stok produk sebelum update
         foreach ($oldDetails as $oldDetail) {
             $product = Product::find($oldDetail->product_id);
             if ($product) {
-                $product->stock -= $oldDetail->amount; // Kembalikan stok lama
+                $product->stock -= $oldDetail->amount;
                 $product->save();
             }
         }
@@ -121,12 +113,9 @@ class PurchaseController extends Controller
             'purchase_date' => $request->purchase_date,
         ]);
 
-        // Hapus detail lama
-        // $purchase_detail = purchase_detail::where('purchase_id', $id);
 
         $total = 0;
 
-        // Simpan detail baru
         foreach ($request->products as $productData) {
             purchase_detail::create([
                 'purchase_id' => $purchase->id,
@@ -137,7 +126,7 @@ class PurchaseController extends Controller
 
             $product = Product::find($productData['product_id']);
             if ($product) {
-                $product->stock += $productData['amount']; // Tambah stok baru
+                $product->stock += $productData['amount'];
                 $product->save();
             }
 

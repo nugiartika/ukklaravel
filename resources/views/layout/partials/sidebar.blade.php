@@ -32,11 +32,11 @@
 
 
     <ul class="menu-inner py-1">
+        @php
+            $role = Auth::user()->role;
+        @endphp
 
-        <!-- Apps & Pages -->
-        {{-- <li class="menu-header small">
-            <span class="menu-header-text" data-i18n="Apps & Pages">Apps &amp; Pages</span>
-        </li> --}}
+        @if($role === 'Admin')
         <li class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ti ti-smart-home"></i>
@@ -67,5 +67,44 @@
                 <div data-i18n="Pembelian">Pembelian</div>
             </a>
         </li>
+        @elseif ($role === 'Kasir')
+        <li class="menu-item {{ request()->routeIs('kasir.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('kasir.dashboard') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                <div data-i18n="Beranda">Beranda</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('kasir.product') ? 'active' : '' }}">
+            <a href="{{ route('kasir.product') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-devices-2"></i>
+                <div data-i18n="Produk">Produk</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('kasir.index') ? 'active' : '' }}">
+            <a href="{{ route('kasir.index') }}" class="menu-link">
+                <i class="menu-icon ti ti-shopping-bag-check"></i>
+                <div data-i18n="Penjualan">Penjualan</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('member.index') ? 'active' : '' }}">
+            <a href="{{ route('member.index') }}" class="menu-link">
+                <i class="menu-icon ti ti-users"></i>
+                <div data-i18n="Member">Member</div>
+            </a>
+        </li>
+        @elseif ($role === 'Member')
+        <li class="menu-item {{ request()->routeIs('member.member.product') ? 'active' : '' }}">
+            <a href="{{ route('member.member.product') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-devices-2"></i>
+                <div data-i18n="Produk">Produk</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('member.member.history') ? 'active' : '' }}">
+            <a href="{{ route('member.member.history') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-devices-2"></i>
+                <div data-i18n="Riwayat">Riwayat</div>
+            </a>
+        </li>
+        @endif
     </ul>
 </aside>
