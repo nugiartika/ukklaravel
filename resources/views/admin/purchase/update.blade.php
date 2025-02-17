@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h2>Edit Purchase</h2>
+    <h2>Edit Pembelian</h2>
 
     <form action="{{ route('admin.purchases.update', $purchase->id) }}" method="POST">
         @csrf
@@ -11,7 +11,7 @@
         <div class="mb-3">
             <label for="supplier_id" class="form-label">Supplier</label>
             <select name="supplier_id" id="supplier_id" class="form-control" required>
-                <option value="">Select Supplier</option>
+                <option value="">Pilih Supplier</option>
                 @foreach($suppliers as $supplier)
                     <option value="{{ $supplier->id }}" {{ $supplier->id == $purchase->supplier_id ? 'selected' : '' }}>
                         {{ $supplier->name }}
@@ -25,14 +25,14 @@
             <input type="date" name="purchase_date" id="purchase_date" class="form-control" value="{{ $purchase->purchase_date }}" required>
         </div>
 
-        <h4>Purchase Details</h4>
+        <h4>Pembelian Detail</h4>
         <table class="table" id="purchaseTable">
             <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Amount</th>
+                    <th>Produk</th>
+                    <th>Jumlah</th>
                     <th>Subtotal</th>
-                    <th>Action</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@
                 <tr>
                     <td>
                         <select name="products[{{ $index }}][product_id]" class="form-control product-select" required>
-                            <option value="">Select Product</option>
+                            <option value="">Pilih Produk</option>
                             @foreach($products as $product)
                                 <option value="{{ $product->id }}" data-price="{{ $product->price }}" {{ $product->id == $detail->product_id ? 'selected' : '' }}>
                                     {{ $product->name }}
@@ -62,8 +62,8 @@
             </tbody>
         </table>
 
-        <button type="button" class="btn btn-primary" id="addRow">Add Product</button>
-        <button type="submit" class="btn btn-success">Update Purchase</button>
+        <button type="button" class="btn btn-primary" id="addRow">Tambah produk</button>
+        <button type="submit" class="btn btn-success">ubah Pembelian</button>
     </form>
 </div>
 

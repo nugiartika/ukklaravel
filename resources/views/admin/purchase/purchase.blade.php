@@ -4,17 +4,22 @@
 <div class="container">
     <h2>Purchase List</h2>
 
+ 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
 
     <a href="{{ route('admin.purchases.create') }}" type="button"  class="btn btn-primary waves-effect waves-light mb-3">tambah</a>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Supplier</th>
-                <th>Purchase Date</th>
+                <th>nama supplier</th>
+                <th>tanggal pembelian</th>
                 <th>Total</th>
                 <th>Aksi</th>
             </tr>
@@ -24,11 +29,13 @@
                 <tr>
                     <td>{{ $purchase->id }}</td>
                     <td>{{ $purchase->supplier->name }}</td>
-                    <td>{{ $purchase->purchase_date }}</td>
+                    {{-- <td>{{ $purchase->purchase_date }}</td> --}}
+                    <td>{{ \Carbon\Carbon::parse($purchase->puechase_date)->format('d M Y') }}</td>
+
                     <td>Rp{{ number_format($purchase->total, 2) }}</td>
                     <td>
                         <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detailModal{{ $purchase->id }}">
-                            View Details
+                            Lihat Detail
                         </button>
                      <!-- Modal untuk Detail Pembelian -->
                 <div class="modal fade" id="detailModal{{ $purchase->id }}" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -42,8 +49,8 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Amount</th>
+                                            <th>produk</th>
+                                            <th>jumlah</th>
                                             <th>Subtotal</th>
                                         </tr>
                                     </thead>

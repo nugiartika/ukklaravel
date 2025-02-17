@@ -66,6 +66,7 @@
         <!-- Kembalian -->
         <div class="mt-3">
             <h4>Kembalian: Rp <span id="kembalian-display">0</span></h4>
+            <input type="hidden" name="kembalian" id="kembalian" value="0">
         </div>
 
         <button type="submit" class="btn btn-primary mt-4">Proses Penjualan</button>
@@ -119,6 +120,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('uang_dibayar').addEventListener('input', function() {
         updateChange();
     });
+    function updateChange() {
+    let total = parseInt(document.getElementById('total').value) || 0;
+    let uangDibayar = parseInt(document.getElementById('uang_dibayar').value) || 0;
+    let kembalian = uangDibayar - total;
+
+    document.getElementById('kembalian-display').textContent = new Intl.NumberFormat('id-ID').format(kembalian > 0 ? kembalian : 0);
+
+    // Set nilai kembalian di input form
+    document.getElementById('kembalian').value = kembalian > 0 ? kembalian : 0;
+}
+
 
     function updateTotals() {
         let total = 0;

@@ -101,8 +101,21 @@
         </li>
         <li class="menu-item {{ request()->routeIs('member.member.history') ? 'active' : '' }}">
             <a href="{{ route('member.member.history') }}" class="menu-link">
-                <i class="menu-icon tf-icons ti ti-devices-2"></i>
+                <i class="menu-icon ti ti-history"></i>
                 <div data-i18n="Riwayat">Riwayat</div>
+            </a>
+        </li>
+        @elseif ($role === 'Pimpinan')
+        <li class="menu-item {{ request()->routeIs('pimpinan.product') ? 'active' : '' }}">
+            <a href="{{ route('pimpinan.product') }}" class="menu-link">
+                <i class="menu-icon tf-icons ti ti-devices-2"></i>
+                <div data-i18n="Produk">Produk</div>
+            </a>
+        </li>
+        <li class="menu-item {{ request()->routeIs('pimpinan.laporan') ? 'active' : '' }}">
+            <a href="{{ route('pimpinan.laporan') }}" class="menu-link">
+                <i class="menu-icon ti ti-shopping-bag-check"></i>
+                <div data-i18n="Data Penjualan">Data Penjualan</div>
             </a>
         </li>
         @endif

@@ -7,18 +7,24 @@
             <i class="bi bi-justify fs-3"></i>
         </a>
     </header>
+    @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Product</h3>
+                    <h3>Penjualan</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Product</li>
+                            <li class="breadcrumb-item active" aria-current="page">Penjualan</li>
                         </ol>
                     </nav>
                 </div>
@@ -34,8 +40,8 @@
                         <div class="card-header">
                             <div class="card-content">
                                 <div class="card-body">
-                                    {{-- <a href="{{ route('admin.product.create') }}" type="button"
-                                        class="btn btn-primary waves-effect waves-light mb-3">tambah</a> --}}
+                                    <a href="{{ route('kasir.create') }}" type="button"
+                                        class="btn btn-primary waves-effect waves-light mb-3">tambah</a>
                                 </div>
 
                             </div>
@@ -66,8 +72,8 @@
                                                 <td>{{ $sale->no_resi }}</td>
                                                 <td>Rp {{ number_format($p->product->price, 0, ',', '.') }}</td>
                                                 <td>Rp {{ number_format($sale->total, 0, ',', '.') }}</td>
-                                                <td>Rp {{ number_format($sale->paid, 0, ',', '.') }}</td>
-                                                <td>Rp {{ number_format($sale->change, 0, ',', '.') }}</td>
+                                                <td>Rp {{ number_format($sale->uang_dibayar, 0, ',', '.') }}</td>
+                                                <td>Rp {{ number_format($sale->kembalian, 0, ',', '.') }}</td>
                                             </tr>
                                         @endforeach
                                     @endforeach

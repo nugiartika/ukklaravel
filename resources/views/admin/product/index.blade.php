@@ -7,18 +7,24 @@
             <i class="bi bi-justify fs-3"></i>
         </a>
     </header>
+    @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Product</h3>
+                    <h3>Produk</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Product</li>
+                            <li class="breadcrumb-item active" aria-current="page">Produk</li>
                         </ol>
                     </nav>
                 </div>
@@ -44,14 +50,14 @@
                                     <thead>
                                         <tr>
                                             <th>NO</th>
-                                            <th>NAME</th>
-                                            <th>PRODUCT DETAIL</th>
-                                            <th>WEGHT</th>
-                                            <th>PRICE</th>
-                                            <th>CATEGORY</th>
-                                            <th>STOCK</th>
+                                            <th>NAMA</th>
+                                            <th>PRODUK DETAIL</th>
+                                            <th>BERAT</th>
+                                            <th>HARGA</th>
+                                            <th>KATEGORI</th>
+                                            <th>STOK</th>
                                             <th>PHOTO</th>
-                                            <th >Action</th>
+                                            <th >AKSI</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,7 +124,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name Product</label>
+                            <label for="name" class="form-label">Nama Produk</label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -126,7 +132,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="product_detail" class="form-label">Product Details</label>
+                            <label for="product_detail" class="form-label">Produk detail</label>
                             <textarea class="form-control @error('product_detail') is-invalid @enderror" name="product_detail">{{ old('product_detail') }}</textarea>
                             @error('product_detail')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -134,7 +140,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="weight" class="form-label">Weight</label>
+                            <label for="weight" class="form-label">Berat</label>
                             <input type="number" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}">
                             @error('weight')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -142,7 +148,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="price" class="form-label">Price</label>
+                            <label for="price" class="form-label">Harga</label>
                             <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}">
                             @error('price')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -150,7 +156,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="stock" class="form-label">Stock</label>
+                            <label for="stock" class="form-label">Stok</label>
                             <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') }}">
                             @error('stock')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -158,7 +164,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="category" class="form-label">Category</label>
+                            <label for="category" class="form-label">Kategori</label>
                             <select class="form-select @error('category_id') is-invalid @enderror" name="category_id">
                                 <option value="" {{ old('category_id') ? '' : 'selected' }}>- Select Category -</option>
                                 @foreach ($categories as $category)
@@ -172,7 +178,7 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="photo" class="form-label">Product Photo</label>
+                            <label for="photo" class="form-label">Photo</label>
                             <input type="file" class="form-control @error('photo') is-invalid @enderror" name="photo">
                             @error('photo')
                                 <div class="invalid-feedback">{{ $message }}</div>

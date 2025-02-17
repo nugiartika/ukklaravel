@@ -7,7 +7,13 @@
             <i class="bi bi-justify fs-3"></i>
         </a>
     </header>
+    @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
     <div class="page-heading">
         <div class="page-title">
             <div class="row">

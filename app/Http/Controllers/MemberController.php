@@ -61,7 +61,7 @@ class MemberController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        return redirect()->route('member.index')->with('success', 'Member create successfully');
+        return redirect()->route('member.index')->with('success', 'Member berhasil di tambahkan');
     }
 
     /**

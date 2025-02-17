@@ -32,7 +32,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         Category::create($data);
-        return redirect()->route('admin.category.index')->with('success', 'category create successfully');
+        return redirect()->route('admin.category.index')->with('success', 'kategori berhasil ditambahkan');
     }
 
     /**
@@ -58,7 +58,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         $category->update($data);
-        return redirect()->route('admin.category.index')->with('success', 'category updated successfully');
+        return redirect()->route('admin.category.index')->with('success', 'kategori berhasil diubah');
     }
 
     /**
@@ -67,6 +67,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('admin.category.index')->with('success', 'category delete successfully');
+        return redirect()->route('admin.category.index')->with('success', 'kategori berhasil di hapus');
     }
 }

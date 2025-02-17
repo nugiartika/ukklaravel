@@ -7,18 +7,24 @@
             <i class="bi bi-justify fs-3"></i>
         </a>
     </header>
+    @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Category</h3>
+                    <h3>Kategori</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Category</li>
+                            <li class="breadcrumb-item active" aria-current="page">Kategori</li>
                         </ol>
                     </nav>
                 </div>
@@ -92,7 +98,10 @@
                     @csrf
                     <div class="modal-body">
                         <label for="name">Nama Kategori</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name">
+                        @error('name')
+                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                    @enderror
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">tutup</button>

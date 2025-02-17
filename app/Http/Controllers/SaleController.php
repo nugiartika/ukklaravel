@@ -46,23 +46,25 @@ class SaleController extends Controller
             'products' => 'required|array',
             'products.*.id_barang' => 'required|exists:products,id',
             'products.*.jumlah_jual' => 'required|integer|min:1',
+            'uang_dibayar' => 'required|integer|min:0', // Validasi uang dibayar
         ]);
 
         do {
             $nomorResi = 'HT-' . now()->format('Ymd') . '-' . strtoupper(Str::random(5));
         } while (Sale::where('no_resi', $nomorResi)->exists());
 
+        $total = 0;
 
         // Buat transaksi penjualan baru
         $sale = Sale::create([
             'user_id' => $request->user_id,
             'waktu' => now(),
-            'total' => 0,
-            'batas_waktu' => now()->addDays(3), // Tambahkan default 3 hari
+            'total' => 0, // Akan diperbarui nanti
+            'batas_waktu' => now()->addDays(3),
             'no_resi' => $nomorResi,
+            'uang_dibayar' => 0, // Akan diperbarui nanti
+            'kembalian' => 0, // Akan diperbarui nanti
         ]);
-
-        $total = 0;
 
         foreach ($request->products as $product) {
             $barang = Product::findOrFail($product['id_barang']);
@@ -75,13 +77,12 @@ class SaleController extends Controller
             $subTotal = $product['jumlah_jual'] * $barang->price;
 
             // Simpan detail penjualan
-            $saleDetail = new SaleDetail();
-            $saleDetail->sale_id = $sale->id;
-            $saleDetail->product_id = $barang->id;
-            $saleDetail->jumlah_jual = $product['jumlah_jual'];
-            $saleDetail->sub_total = $subTotal;
-            // $saleDetail->uang_dibayar = $product['uang_dibayar'];
-            $saleDetail->save(); // Simpan ke database
+            SaleDetail::create([
+                'sale_id' => $sale->id,
+                'product_id' => $barang->id,
+                'jumlah_jual' => $product['jumlah_jual'],
+                'sub_total' => $subTotal,
+            ]);
 
             // Kurangi stok barang
             $barang->stock -= $product['jumlah_jual'];
@@ -91,12 +92,19 @@ class SaleController extends Controller
             $total += $subTotal;
         }
 
-        // Update total harga di transaksi penjualan
-        $sale->total = $total;
-        $sale->save();
+        // Hitung kembalian
+        $uangDibayar = $request->uang_dibayar;
+        $kembalian = max(0, $uangDibayar - $total); // Jika uang dibayar kurang dari total, kembalian 0
 
-        return redirect()->route('kasir.index')->with('success', 'Penjualan berhasil!');
-        }
+        // Update total harga, uang dibayar, dan kembalian
+        $sale->update([
+            'total' => $total,
+            'uang_dibayar' => $uangDibayar,
+            'kembalian' => $kembalian,
+        ]);
+
+        return redirect()->route('kasir.index')->with('success', 'Penjualan berhasil ditambahkan!');
+    }
 
 
     /**

@@ -7,18 +7,24 @@
             <i class="bi bi-justify fs-3"></i>
         </a>
     </header>
+    @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Category</h3>
+                    <h3>Supplier</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Category</li>
+                            <li class="breadcrumb-item active" aria-current="page">Supplier</li>
                         </ol>
                     </nav>
                 </div>
@@ -45,9 +51,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Name</th>
-                                            <th>Address</th>
-                                            <th>Phone</th>
+                                            <th>Nama</th>
+                                            <th>Alamat</th>
+                                            <th>No.telp</th>
                                             <th width="380px">Action</th>
                                         </tr>
                                     </thead>
@@ -100,12 +106,10 @@
                     <div class="modal-body">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" name="name">
-                    </div>
-                    <div class="modal-body">
+
                         <label for="address">Address</label>
                         <textarea type="text" class="form-control" name="address"></textarea>
-                    </div>
-                    <div class="modal-body">
+
                         <label for="phone">Phone</label>
                         <input type="number" class="form-control" name="phone">
                     </div>

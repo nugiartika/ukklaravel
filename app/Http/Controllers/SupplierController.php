@@ -32,7 +32,7 @@ class SupplierController extends Controller
     public function store(StoreSupplierRequest $request)
     {
         Supplier::create($request->validated());
-        return redirect()->route('admin.supplier.index');
+        return redirect()->route('admin.supplier.index')->with('success', 'supplier berhasil di tambahkan');
     }
 
     /**
@@ -59,7 +59,7 @@ class SupplierController extends Controller
     {
         $data = $request->validated();
         $supplier->update($data);
-        return redirect()->route('admin.supplier.index');
+        return redirect()->route('admin.supplier.index')->with('success', 'supplier berhasil di ubah');
     }
 
     /**
@@ -68,6 +68,6 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
-        return redirect()->route('admin.supplier.index');
+        return redirect()->route('admin.supplier.index')->with('success', 'supplier berhasil di hapus');
     }
 }

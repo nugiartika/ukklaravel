@@ -65,7 +65,7 @@ class PurchaseController extends Controller
 
         $purchase->update(['total' => $total]);
 
-        return redirect()->route('admin.purchases.index')->with('success', 'Purchase added successfully!');
+        return redirect()->route('admin.purchases.index')->with('success', 'pembelian berhasil di tambahkan!');
     }
 
     /**
@@ -136,7 +136,7 @@ class PurchaseController extends Controller
         // Update total pembelian
         $purchase->update(['total' => $total]);
 
-        return redirect()->route('admin.purchases.index')->with('success', 'Purchase updated successfully!');
+        return redirect()->route('admin.purchases.index')->with('success', 'Pembelian berhasil di ubah!');
     }
 
     /**

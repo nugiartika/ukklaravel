@@ -26,6 +26,14 @@ class ProductController extends Controller
         return view('admin.product.index', compact('categories', 'products','suppliers'));
     }
 
+    public function dashboard()
+    {
+        $products = Product::count();
+        $suppliers = Supplier::count();
+        $categories = Category::count();
+        $purchase = purchase::where('total')->count();
+        return view('admin.admin', compact('products','suppliers','categories','purchase'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -80,7 +88,7 @@ class ProductController extends Controller
         // }
 
         // dd($request->all());
-        return redirect()->route('admin.product.index')->with('success', 'product added successfully');
+        return redirect()->route('admin.product.index')->with('success', 'Produk berhasil di tambahkan');
 
     }
 
@@ -131,7 +139,7 @@ class ProductController extends Controller
 
 
                 // dd($request->all());
-        return redirect()->route('admin.product.index')->with('success', 'product updated successfully');;
+        return redirect()->route('admin.product.index')->with('success', 'produk berhasil di ubah');;
     }
 
     /**
@@ -144,9 +152,9 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->photo);
             }
             $product->delete();
-            return redirect()->route('admin.product.index')->with('success', 'product delete successfully');
+            return redirect()->route('admin.product.index')->with('success', 'produk berhasi di hapus');
         } catch (\Exception $e) {
-            return redirect()->route('admin.product.index')->with('error', 'failed product delete. try again.');
+            return redirect()->route('admin.product.index')->with('error', 'gagal menghapus');
         }
     }
 }
