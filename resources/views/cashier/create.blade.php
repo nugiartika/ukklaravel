@@ -17,9 +17,9 @@
 
         <!-- Pilih Member -->
         <div class="mb-3">
-            <label for="user_id" class="form-label">Pilih Member (Opsional)</label>
-            <select name="user_id" id="user_id" class="form-control">
-                <option value="">- Non Member -</option>
+            <label for="user_id" class="form-label">Pilih Member</label>
+            <select name="user_id" id="user_id" class="form-control" required>
+                <option value="">- Pilih Member -</option>
                 @foreach($users as $member)
                     <option value="{{ $member->id }}">{{ $member->name }}</option>
                 @endforeach
@@ -30,7 +30,7 @@
         <div id="product-container">
             <div class="product-row mb-3">
                 <label for="products[0][id_barang]" class="form-label">Pilih Produk</label>
-                <select name="products[0][id_barang]" class="form-control product-select">
+                <select name="products[0][id_barang]" class="form-control product-select" required>
                     <option value="">- Pilih Produk -</option>
                     @foreach($products as $product)
                         <option value="{{ $product->id }}" data-price="{{ $product->price }}">
@@ -40,7 +40,7 @@
                 </select>
 
                 <label class="form-label mt-2">Jumlah</label>
-                <input type="number" name="products[0][jumlah_jual]" class="form-control jumlah-input" min="1" value="1">
+                <input type="number" name="products[0][jumlah_jual]" class="form-control jumlah-input" min="1" value="1" required>
 
                 <label class="form-label mt-2">Subtotal</label>
                 <input type="text" class="form-control subtotal" readonly value="0">
@@ -60,10 +60,14 @@
         <!-- Uang Dibayar -->
         <div class="mt-3">
             <label for="uang_dibayar" class="form-label">Uang Dibayar</label>
-            <input type="number" name="uang_dibayar" id="uang_dibayar" class="form-control" min="0">
+            <input type="number" name="uang_dibayar" id="uang_dibayar" class="form-control @error('uang_dibayar') is-invalid @enderror" min="0" required>
+            @error('uang_dibayar')
+                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+            @enderror
         </div>
 
         <!-- Kembalian -->
+
         <div class="mt-3">
             <h4>Kembalian: Rp <span id="kembalian-display">0</span></h4>
             <input type="hidden" name="kembalian" id="kembalian" value="0">
@@ -104,6 +108,16 @@ document.addEventListener('DOMContentLoaded', function() {
         productIndex++;
     });
 
+
+//     document.getElementById("sales-form").addEventListener("submit", function(event) {
+//     let total = parseFloat(document.getElementById("total").value) || 0;
+//     let uangDibayar = parseFloat(document.getElementById("uang_dibayar").value) || 0;
+
+//     if (uangDibayar < total) {
+//         alert("Uang yang dibayarkan tidak boleh kurang dari total harga!");
+//         event.preventDefault(); // Mencegah form dikirim
+//     }
+// });
     document.getElementById('product-container').addEventListener('input', function(event) {
         if (event.target.classList.contains('jumlah-input') || event.target.classList.contains('product-select')) {
             updateTotals();
@@ -154,6 +168,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let uangDibayar = parseInt(document.getElementById('uang_dibayar').value) || 0;
         let kembalian = uangDibayar - total;
         document.getElementById('kembalian-display').textContent = new Intl.NumberFormat('id-ID').format(kembalian > 0 ? kembalian : 0);
+    }
+});
+document.getElementById("sales-form").addEventListener("submit", function(event) {
+    let total = parseFloat(document.getElementById("total").value) || 0;
+    let uangDibayar = parseFloat(document.getElementById("uang_dibayar").value) || 0;
+
+    if (uangDibayar < total) {
+        alert("Uang yang dibayarkan tidak boleh kurang dari total harga!");
+        event.preventDefault(); // Mencegah form dikirim
     }
 });
 </script>

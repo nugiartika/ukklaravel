@@ -31,11 +31,11 @@ class AuthenticatedSessionController extends Controller
         if ($request->user()->role === 'Admin') {
             return redirect('admin/dashboard');
         }else if ($request->user()->role === 'Member') {
-            return redirect('member/member/product');
+            return redirect('member/product');
         }else if ($request->user()->role === 'Kasir') {
-            return redirect('kasir/kasir/product');
+            return redirect('kasir/dashboard');
         }else if ($request->user()->role === 'Pimpinan') {
-            return redirect('pimpinan/dashboard');
+            return redirect('pimpinan/product');
         }
 
         return redirect()->intended(route('/'));

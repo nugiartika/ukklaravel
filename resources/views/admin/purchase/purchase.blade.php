@@ -30,7 +30,7 @@
                     <td>{{ $purchase->id }}</td>
                     <td>{{ $purchase->supplier->name }}</td>
                     {{-- <td>{{ $purchase->purchase_date }}</td> --}}
-                    <td>{{ \Carbon\Carbon::parse($purchase->puechase_date)->format('d M Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($purchase->puechase_date)->format('d F Y') }}</td>
 
                     <td>Rp{{ number_format($purchase->total, 2) }}</td>
                     <td>

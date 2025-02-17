@@ -46,7 +46,10 @@ class SaleController extends Controller
             'products' => 'required|array',
             'products.*.id_barang' => 'required|exists:products,id',
             'products.*.jumlah_jual' => 'required|integer|min:1',
-            'uang_dibayar' => 'required|integer|min:0', // Validasi uang dibayar
+            'uang_dibayar' => ['required', 'integer', 'min:0', 'gte:total'], 
+        ],[
+            'uang_dibayar.gte' => 'uang bayar harus lebih dari total' 
+
         ]);
 
         do {

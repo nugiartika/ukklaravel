@@ -31,7 +31,7 @@ class ProductController extends Controller
         $products = Product::count();
         $suppliers = Supplier::count();
         $categories = Category::count();
-        $purchase = purchase::where('total')->count();
+        $purchase = purchase::sum('total');
         return view('admin.admin', compact('products','suppliers','categories','purchase'));
     }
     /**
@@ -56,38 +56,18 @@ class ProductController extends Controller
         if ($photo) {
             $path_gambar = Storage::disk('public')->put('product', $photo);
         }
-        $product = Product::create([
+        Product::create([
             'category_id' => $request->category_id,
             'name' => $request->name,
+            'weight' =>$request->weight,
             'product_detail' => $request->product_detail,
-            'weight' => $request->weight,
             'price' => $request->price,
+            'harga_beli' => $request->harga_beli,
             'photo' => $path_gambar,
             'stock' => 0,
             'category_id' => $request->category_id,
-            // 'supplier_id' => $request->supplier_id,
         ]);
 
-        // $total = $product->stock * $product->price;
-        // try {
-        //     $purchase = purchase::create([
-        //         'supplier_id' => $product->supplier_id,
-        //         'purchase_date' => now(),
-        //         'total' => $total,
-        //     ]);
-
-        //     purchase_detail::create([
-        //         'purchase_id' => $purchase->id,
-        //         'product_id' => $product->id,
-        //         'amount' => $product->stock,
-        //         'sub_total' => $total
-        //     ]);
-
-        // } catch (\Exception $e) {
-        //     dd($e->getMessage());
-        // }
-
-        // dd($request->all());
         return redirect()->route('admin.product.index')->with('success', 'Produk berhasil di tambahkan');
 
     }

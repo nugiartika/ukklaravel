@@ -75,6 +75,7 @@
             <tr>
                 <td>{{ $sale->no_resi }}</td>
                 <td>{{ $sale->waktu }}</td>
+                <td>{{ \Carbon\Carbon::parse($sale->waktu)->translatedFormat('d F Y, H:i') }}</td>
                 <td>{{ $sale->user->name ?? 'Non Member' }}</td>
                 <td>Rp {{ number_format($sale->total, 0, ',', '.') }}</td>
                 <td>Rp {{ number_format($sale->uang_dibayar, 0, ',', '.') }}</td>

@@ -53,9 +53,7 @@ Route::middleware(['auth', MemberMiddleware::class])->name('member.')->group(fun
 });
 Route::prefix('kasir')->middleware(['auth', KasirMiddleware::class])->group(function () {
     Route::get('kasir/product', [KasirController::class, 'product'])->name('kasir.product');
-    Route::get('dashboard', function () {
-        return view('cashier.index');
-    })->name('kasir.dashboard');
+    Route::get('dashboard',[KasirController::class, 'index'])->name('kasir.dashboard');
     Route::resource('kasir', SaleController::class);
     Route::resource('member', MemberController::class);
 });

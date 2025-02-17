@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('product_detail')->nullable();
             $table->integer('weight')->nullable();
             $table->integer('price');
+            $table->integer('harga_beli');
             $table->longText('photo');
             $table->integer('stock')->default(0);
             $table->timestamps();

@@ -46,7 +46,7 @@ class MemberController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            // 'password' => ['required', 'confirmed'],
+            'password' => ['required', 'confirmed'],
             'address' => ['nullable', 'max:255'],
             'phone' => ['nullable','numeric'],
         ]);
@@ -54,7 +54,7 @@ class MemberController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            // 'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password),
             'role' => 'Member',
             'address' => $request->address,
             'phone' => $request->phone,

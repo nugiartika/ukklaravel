@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\purchase;
+use App\Models\sale;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class KasirController extends Controller
@@ -12,8 +16,11 @@ class KasirController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('cashier.index', compact('products'));
+        $products = Product::count();
+        $suppliers = Supplier::count();
+        $categories = Category::count();
+        $purchase = sale::sum('total');
+        return view('cashier.index' , compact('products','suppliers','categories','purchase'));
 
     }
 

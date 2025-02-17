@@ -23,25 +23,26 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label for="price" class="form-label">Price</label>
+                        <label for="price" class="form-label">harga jual</label>
                         <input type="number" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}">
                         @error('price')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    {{-- <div class="col-md-6">
-                        <label for="stock" class="form-label">Stock</label>
-                        <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock') }}">
-                        @error('stock')
+                    <div class="col-md-6">
+                        <label for="harga_beli" class="form-label">harga beli</label>
+                        <input type="number" class="form-control @error('harga_beli') is-invalid @enderror" name="harga_beli" value="{{ old('harga_beli') }}">
+                        @error('harga_beli')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div> --}}
+                    </div>
+
                     <div class="col-md-6">
-                        <label for="weight" class="form-label">Weight</label>
-                            <input type="number" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}">
-                            @error('weight')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <label for="weight" class="form-label">weight</label>
+                        <input type="number" class="form-control @error('weight') is-invalid @enderror" name="weight" value="{{ old('weight') }}">
+                        @error('weight')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="category" class="form-label">Category</label>

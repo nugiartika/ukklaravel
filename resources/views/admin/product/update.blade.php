@@ -53,7 +53,7 @@
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select select2 @error('category_id') is-invalid @enderror" id="category"
                             name="category_id" >
-                            <option value="" {{ old('category_id') ? '' : 'selected' }}>- Select Category -</option>
+                            {{-- <option value="" {{ old('category_id') ? '' : 'selected' }}>- Select Category -</option> --}}
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
                                     {{ in_array($category->id, isset($is_edit) ? $product->categories->pluck('id')->toArray() : old('category_id', [])) ? 'selected' : '' }}>
@@ -83,11 +83,18 @@
                     </div> --}}
                     <div class="col-md-6">
                         <label for="photo" class="form-label">Product Photo</label>
-                        <input type="file" class="form-control @error('photo') is-invalid @enderror" name="photo">
-                        @error('photo')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        @if(isset($product) && $product->photo)
+                        <div>
+                            <img src="{{ asset('storage/' . $product->photo) }}" alt="Product Image" class="img-thumbnail" style="max-width: 150px;">
+                        </div>
+                    @endif
+                
+                    <input type="file" class="form-control @error('photo') is-invalid @enderror" name="photo">
+                    
+                    @error('photo')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
                     <div class="col-md-6">
                         <label for="product_detail" class="form-label">Product Details</label>
                         <textarea class="form-control @error('product_detail') is-invalid @enderror" name="product_detail">{{ old('product_detail', $product->product_detail) }}</textarea>
