@@ -109,6 +109,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'product_detail' => $request->product_detail,
             'weight' => $request->weight,
+            'harga_beli' => $request->harga_beli,
             'price' => $request->price,
             'photo' => $path_gambar,
             'category_id' => $request->category_id,

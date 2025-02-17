@@ -23,8 +23,9 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'price' => 'required',
-            'weight' => 'required|min:1',
+            'price' => 'required|numeric|min:1|gte:harga_beli',
+            'harga_beli' => 'required|numeric|min:1|lte:price',
+            'weight' => 'required|numeric|min:1',
             'product_detail' => 'required',
             'photo' => 'nullable|mimes:jpg,jpeg,png,gif',
             'category_id' => 'required|exists:categories,id',

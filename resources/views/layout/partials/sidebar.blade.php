@@ -118,6 +118,12 @@
                 <div data-i18n="Data Penjualan">Data Penjualan</div>
             </a>
         </li>
+        <li class="menu-item {{ request()->routeIs('pimpinan.pembelian') ? 'active' : '' }}">
+            <a href="{{ route('pimpinan.pembelian') }}" class="menu-link">
+                <i class="menu-icon ti ti-shopping-bag-check"></i>
+                <div data-i18n="Data Pembelian">Data Pembelian</div>
+            </a>
+        </li>
         @endif
     </ul>
 </aside>

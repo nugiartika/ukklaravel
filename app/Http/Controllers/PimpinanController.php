@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\purchase;
 use App\Models\sale;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class PimpinanController extends Controller
@@ -34,6 +36,14 @@ class PimpinanController extends Controller
         $sales = $query->orderBy('waktu', 'desc')->get();
 
          return view('pimpinan.laporan', compact('sales'));
+    }
+
+    public function pembelian()
+    {
+        $purchases = purchase::with('supplier', 'purchase_detail.product')->get();
+        $suppliers = Supplier::all();
+        $products = Product::all();
+        return view('pimpinan.pembelian', compact('purchases','suppliers','products'));
     }
     /**
      * Show the form for creating a new resource.

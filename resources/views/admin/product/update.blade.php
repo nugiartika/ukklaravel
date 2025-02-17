@@ -35,6 +35,13 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="col-md-6">
+                        <label for="harga_beli" class="form-label">harga beli</label>
+                        <input type="number" class="form-control @error('harga_beli') is-invalid @enderror" name="harga_beli" value="{{ old('harga_beli', $product->price) }}">
+                        @error('harga_beli')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                     {{-- <div class="col-md-6">
                         <label for="stock" class="form-label">Stock</label>
                         <input type="number" class="form-control @error('stock') is-invalid @enderror" name="stock" value="{{ old('stock', $product->stock) }}">
@@ -88,9 +95,9 @@
                             <img src="{{ asset('storage/' . $product->photo) }}" alt="Product Image" class="img-thumbnail" style="max-width: 150px;">
                         </div>
                     @endif
-                
+
                     <input type="file" class="form-control @error('photo') is-invalid @enderror" name="photo">
-                    
+
                     @error('photo')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

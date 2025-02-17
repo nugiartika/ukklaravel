@@ -45,7 +45,7 @@ Route::middleware(['auth', PimpinanMiddleware::class])->group(function () {
     Route::get('pimpinan/product',[ MemberController::class, 'product'])->name('pimpinan.product');
     Route::get('pimpinan/laporan',[ PimpinanController::class, 'laporan'])->name('pimpinan.laporan');
     Route::get('/laporan/cetak-pdf', [PDFController::class, 'generatePDF'])->name('laporan.pdf');
-
+    Route::get('pimpinan/pembelian', [PimpinanController::class,'pembelian'])->name('pimpinan.pembelian');
 });
 Route::middleware(['auth', MemberMiddleware::class])->name('member.')->group(function () {
     Route::get('member/product',[ MemberController::class, 'product'])->name('member.product');
